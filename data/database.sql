@@ -2,7 +2,8 @@ CREATE TABLE news (
  id INTEGER PRIMARY KEY,
  news_url TEXT NOT NULL ,
  processed_date DATE,
- processed BOOLEAN NOT NULL DEFAULT 0
+ processed BOOLEAN NOT NULL DEFAULT 0,
+ summary TEXT
 );
 
 CREATE TRIGGER add_processed_date UPDATE OF processed ON news 
@@ -16,4 +17,7 @@ INSERT INTO news(news_url) VALUES('https://www.youtube.com.br/' );
 INSERT INTO news(news_url) VALUES('https://www.twitter.com.br/' );
 INSERT INTO news(news_url) VALUES('https://www.g1.com.br/' );
 
-UPDATE news set processed=1 where id=2;
+UPDATE news 
+SET processed = 1, 
+    summary="example summary"
+WHERE id=2;

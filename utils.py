@@ -10,8 +10,8 @@ def insert(url, conn):
     conn.executescript(script)
     conn.commit()
 
-def update(id, conn):
-    script = f"UPDATE news set processed=1 where id={id};"
+def update(id, summary, conn):
+    script = f'UPDATE news set processed=1, summary="{summary}" where id={id};'
     conn.executescript(script)
     conn.commit()
 
@@ -25,6 +25,14 @@ def get_single(id, conn):
 
 def get_unprocessed(conn):
     script = "SELECT * FROM news WHERE processed=0;"
+    cursor = conn.cursor()
+    cursor.execute(script)
+    r = cursor.fetchall()
+    cursor.close()
+    return r
+
+def get_processed(conn, amount, page):
+    script = f"SELECT * FROM news WHERE processed=1 LIMIT {page*amount}, {amount};"
     cursor = conn.cursor()
     cursor.execute(script)
     r = cursor.fetchall()

@@ -35,11 +35,39 @@ class TestUtils(unittest.TestCase):
     def test_get_unprocessed(self):
         rows = utils.get_unprocessed(self.conn)
         self.assertEqual(len(rows), 4)
+    
+    def test_get_processed(self):
+        utils.update(1, "summaryyyyyy", self.conn)
+        utils.update(3, "summaryyyyyy", self.conn)
+        utils.update(4, "summaryyyyyy", self.conn)
+        utils.update(5, "summaryyyyyy", self.conn)
+        rows = utils.get_processed(self.conn, 2, 1)
+        # rows should contain rows 3 and 4
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0][0], 3)
+        self.assertEqual(rows[1][0], 4)
 
     def test_get_single(self):
        row = utils.get_single(1, self.conn)
        expected_url = 'https://www.google.com/news'
        self.assertEqual(row[1], expected_url)
+    
+    def test_insert(self):
+        test_url = "http://test.news.com"
+        utils.insert(test_url, self.conn)
+
+        row = utils.get_single(6, self.conn)
+        self.assertEqual(row[1], test_url)
+    
+    def test_update(self):
+        row = utils.get_single(1, self.conn)
+        self.assertEqual(row[3], 0) # assure processed column is False (0) before update
+
+        utils.update(1, "summaryyyyyy", self.conn)
+
+        row = utils.get_single(1, self.conn)
+        self.assertEqual(row[3], 1) # assure the update happened
+        self.assertIsNotNone(row[2]) # assure sql trigger also works
 
 if __name__ == '__main__':
     sys.argv.append('-v')
