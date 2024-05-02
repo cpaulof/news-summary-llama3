@@ -2,7 +2,7 @@ import unittest
 import os, sys
 
 import sqlite3
-import utils
+import database.utils as utils
 
 DATABASE_FILE = './db_test.sqlite'
 SQL_FILE = './data/database_test.sql'

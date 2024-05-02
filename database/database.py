@@ -1,9 +1,9 @@
 import sqlite3
 
-import utils
+import database.utils as utils
 
 
-DATABASE_FILE = './db.sqlite'
+DATABASE_FILE = './database/db.sqlite'
 SQL_FILE = './data/database.sql'
 
 
@@ -23,9 +23,4 @@ class Database:
     
     def get_processed_urls(self, amount, page):
         return utils.get_processed(self.conn, amount, page)
-    
-    
-
-
-
 
