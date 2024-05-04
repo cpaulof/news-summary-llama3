@@ -13,7 +13,8 @@ CREATE TRIGGER add_processed_date UPDATE OF processed ON news
   BEGIN
     UPDATE news SET processed_date=CURRENT_TIMESTAMP where id=new.id;
   END;
-
+  
+/*
 INSERT INTO news(news_url, source, title, published_date) VALUES('https://www.google.com/news', 'google news', 'titulo A', '2024-05-02 21:55:31');
 INSERT INTO news(news_url, source, title, published_date) VALUES('https://www.yahoo.com.br/', 'google news', 'titulo A', '2024-05-02 21:55:31' );
 INSERT INTO news(news_url, source, title, published_date) VALUES('https://www.youtube.com.br/', 'google news', 'titulo A', '2024-05-02 21:55:31' );
@@ -23,4 +24,4 @@ INSERT INTO news(news_url, source, title, published_date) VALUES('https://www.g1
 UPDATE news 
 SET processed = 1, 
     summary="example summary"
-WHERE id=2;
+WHERE id=2;*/

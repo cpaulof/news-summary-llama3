@@ -1,3 +1,5 @@
+import sqlite3
+
 def execute_script_file(filepath, conn):
     with open(filepath, 'r') as file:
         script = file.read()
@@ -5,10 +7,16 @@ def execute_script_file(filepath, conn):
         conn.executescript(script)
         conn.commit()
 
-def insert(url, source, title, published,  conn):
-    script = f"INSERT INTO news(news_url, source, title, published_date) VALUES('{url}', '{source}', '{title}', '{published}');"
-    conn.executescript(script)
-    conn.commit()
+def insert(url, source, title, published,  conn:sqlite3.Connection):
+    #script = f"INSERT INTO news(news_url, source, title, published_date) VALUES('{url}', '{source}', '{title}', '{published}');"
+    script = f"INSERT INTO news(news_url, source, title, published_date) VALUES(?, ?, ?, ?);"
+    t = (url, source, title, published)
+    try:
+        conn.execute(script, t)
+        conn.commit()
+    except sqlite3.OperationalError:
+        print(script)
+        raise sqlite3.OperationalError
 
 def update(id, summary, conn):
     script = f'UPDATE news set processed=1, summary="{summary}" where id={id};'

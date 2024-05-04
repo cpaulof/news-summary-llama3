@@ -1,6 +1,7 @@
 import sqlite3
+import os
 
-import utils
+from . import utils
 
 
 DATABASE_FILE = './database/db.sqlite'
@@ -9,8 +10,10 @@ SQL_FILE = './data/database.sql'
 
 class Database:
     def __init__(self, sql_path=SQL_FILE, db_path=DATABASE_FILE):
+        exists = os.path.exists(DATABASE_FILE)
         self.conn = sqlite3.connect(db_path)
-        utils.execute_script_file(sql_path, self.conn)
+        if not exists:
+            utils.execute_script_file(sql_path, self.conn)
     
     def add_news(self, url, source, title, published):
         #'https://www.google.com/news', 'google news', 'titulo A', '2024-05-02 21:55:31'

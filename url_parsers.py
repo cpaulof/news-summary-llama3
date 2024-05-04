@@ -1,8 +1,6 @@
 from bs4 import BeautifulSoup
 import json
 
-def parser_generic(html):
-    return html
 
 def parser_abc_news(html):
     soup = BeautifulSoup(html, "lxml")
@@ -30,18 +28,23 @@ PARSERS = {
 }
 
 def get_parser(source_name):
-    parser_func = PARSERS.get(source_name, parser_generic)
+    parser_func = PARSERS.get(source_name, lambda x: "")
     return parser_func
 
-
+def parse_html(source_name, html):
+    parser_func = get_parser(source_name)
+    try:
+        return parser_func(html)
+    except:
+        return ""
+    
 
 if __name__ == '__main__':
     import requests
     
-    
-    #r = requests.get('https://abcnews.go.com/Politics/texas-democratic-rep-henry-cuellar-innocent-ahead-potential/story?id=109907581')
-    r = requests.get('https://www.bbc.com/news/world-middle-east-68953413')
+    r = requests.get('https://abcnews.go.com/Politics/texas-democratic-rep-henry-cuellar-innocent-ahead-potential/story?id=109907581')
+    #r = requests.get('https://www.bbc.com/news/world-middle-east-68953413')
     html = r.text
-    print(parser_bbc_news(html))
+    print(parse_html('bbc-news', html))
 
 
