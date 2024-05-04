@@ -12,7 +12,7 @@ def get_sources():
     if response['status'] != 'ok':
         return []
     sources = response['sources']
-    sources_id = [source['id'] for source in sources]
+    sources_id = [(source['id'], source['url']) for source in sources]
     return sources_id
 
 def get_top_headlines(sources):
@@ -27,3 +27,6 @@ def get_top_headlines(sources):
         results.append((source_name, title, url, date))
     return results
 
+if __name__ == "__main__":
+    #print(get_sources())
+    print(get_top_headlines(['bbc-news']))

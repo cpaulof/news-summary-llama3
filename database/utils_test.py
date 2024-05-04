@@ -1,8 +1,12 @@
 import unittest
 import os, sys
 
+print(os.getcwd())
+
 import sqlite3
-import database.utils as utils
+
+import utils
+
 
 DATABASE_FILE = './db_test.sqlite'
 SQL_FILE = './data/database_test.sql'
@@ -54,20 +58,25 @@ class TestUtils(unittest.TestCase):
     
     def test_insert(self):
         test_url = "http://test.news.com"
-        utils.insert(test_url, self.conn)
+        utils.insert(test_url, "source-news", "Title A", '2024-05-02 21:55:31', self.conn)
 
         row = utils.get_single(6, self.conn)
         self.assertEqual(row[1], test_url)
+
+        ## test unique constrain violation
+        self.assertRaises(sqlite3.IntegrityError, utils.insert, test_url, "source-news", "Title A", '2024-05-02 21:55:31',  self.conn)
+        
+
     
     def test_update(self):
         row = utils.get_single(1, self.conn)
-        self.assertEqual(row[3], 0) # assure processed column is False (0) before update
+        self.assertEqual(row[6], 0) # assure processed column is False (0) before update
 
         utils.update(1, "summaryyyyyy", self.conn)
 
         row = utils.get_single(1, self.conn)
-        self.assertEqual(row[3], 1) # assure the update happened
-        self.assertIsNotNone(row[2]) # assure sql trigger also works
+        self.assertEqual(row[6], 1) # assure the update happened
+        self.assertIsNotNone(row[5]) # assure sql trigger also works
 
 if __name__ == '__main__':
     sys.argv.append('-v')

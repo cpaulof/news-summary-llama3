@@ -5,8 +5,8 @@ def execute_script_file(filepath, conn):
         conn.executescript(script)
         conn.commit()
 
-def insert(url, conn):
-    script = f"INSERT INTO news(news_url) VALUES('{url}');"
+def insert(url, source, title, published,  conn):
+    script = f"INSERT INTO news(news_url, source, title, published_date) VALUES('{url}', '{source}', '{title}', '{published}');"
     conn.executescript(script)
     conn.commit()
 
