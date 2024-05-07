@@ -49,6 +49,9 @@ def generate_summary(text):
         dialog = create_dialog(generate_prompt(chunk.page_content))
         r = llm.create_chat_completion(dialog)
         content = r['choices'][0]['message']['content']
+        response_only = content.split("\n\n")
+        if len(response_only)==2:
+            content = response_only[1]
         responses.append(content)
     
     # with open('Results.txt', 'w') as file:

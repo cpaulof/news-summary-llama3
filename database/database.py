@@ -31,4 +31,9 @@ class Database:
     
     def get_processed_urls(self, amount, page):
         return utils.get_processed(self.conn, amount, page)
+    
+    def get_last_unprocessed_url(self):
+        r = utils.get_unprocessed(self.conn, single=True)
+        if len(r) != 1: return None
+        return r[0]
 

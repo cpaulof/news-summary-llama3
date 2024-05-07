@@ -31,8 +31,10 @@ def get_single(id, conn):
     cursor.close()
     return r
 
-def get_unprocessed(conn):
+def get_unprocessed(conn, single=False):
     script = "SELECT * FROM news WHERE processed=0;"
+    if single:
+        script = "SELECT * FROM news WHERE processed=0 ORDER BY id DESC LIMIT 1"
     cursor = conn.cursor()
     cursor.execute(script)
     r = cursor.fetchall()

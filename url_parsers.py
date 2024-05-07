@@ -35,7 +35,8 @@ def parse_html(source_name, html):
     parser_func = get_parser(source_name)
     try:
         return parser_func(html)
-    except:
+    except Exception as e:
+        print(e)
         return ""
     
 
@@ -45,6 +46,6 @@ if __name__ == '__main__':
     r = requests.get('https://abcnews.go.com/Politics/texas-democratic-rep-henry-cuellar-innocent-ahead-potential/story?id=109907581')
     #r = requests.get('https://www.bbc.com/news/world-middle-east-68953413')
     html = r.text
-    print(parse_html('bbc-news', html))
+    print(parse_html('abc-news', html))
 
 
