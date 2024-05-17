@@ -3,6 +3,7 @@ import requests
 
 import database
 from model import generate_summary
+from scheduler import Updater
 import url_parsers
 from keys import *
 
@@ -43,6 +44,8 @@ def insert_last_headlines(sources=['abc-news']):
             added+=1
     print(f'Added {added} new urls out of {len(top_headlines)} fetched')
 
+    return added
+
 def fetch_url(url):
     resp = requests.get(url)
     html = resp.text
@@ -64,6 +67,16 @@ def generate_single_summary():
     print('update summary for url id:', r_id)
 
 
+def start_api():
+    from api.flask_api import main
+    main()
+
 if __name__ == "__main__":
-    insert_last_headlines()
-    generate_single_summary()
+    # headlines_updater = Updater(insert_last_headlines, callback_args=tuple(), wait_minutes=10)
+    # summaries_updater = Updater(generate_single_summary, callback_args=tuple(), wait_minutes=0.17)
+
+    # headlines_updater.start()
+    # summaries_updater.start()
+
+    start_api()
+
