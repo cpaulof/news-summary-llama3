@@ -19,5 +19,6 @@ NEWS_SOURCES = ['abc-news']
 FLASK_API_HOST = '0.0.0.0'
 FLASK_API_PORT = 6565
 DEFAULT_GET_SUMMARIES_AMOUNT = 20
+DB_RESULT_COLUMNS = ['id', 'url', 'source_id', 'title', 'published_date', 'generation_date', 'processed', 'summary']
 
 

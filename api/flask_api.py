@@ -13,10 +13,11 @@ def get_summaries():
     page = int(request.args.get("page", 0))
     
     r = db.get_processed_urls(amount, page)
+    
     response = {
         'amount': amount,
         'page': page,
-        'results':r
+        'results':[dict(zip(config.DB_RESULT_COLUMNS, values)) for values in r]
     }
     return response
 
