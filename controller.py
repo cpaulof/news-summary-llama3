@@ -5,8 +5,9 @@ import database
 from model import generate_summary
 from scheduler import Updater
 import url_parsers
-from keys import *
 
+from keys import *
+import config
 
 client = NewsApiClient(api_key=API_KEY)
 
@@ -35,7 +36,7 @@ def _format_date(date):
     time = time.split('.')[0].replace('Z', '')
     return f'{date} {time}'
 
-def insert_last_headlines(sources=['abc-news']):
+def insert_last_headlines(sources=config.NEWS_SOURCES):
     db = database.database_instance
     top_headlines = get_top_headlines(sources)
     added = 0
@@ -72,11 +73,11 @@ def start_api():
     main()
 
 if __name__ == "__main__":
-    # headlines_updater = Updater(insert_last_headlines, callback_args=tuple(), wait_minutes=10)
-    # summaries_updater = Updater(generate_single_summary, callback_args=tuple(), wait_minutes=0.17)
+    headlines_updater = Updater(insert_last_headlines, callback_args=tuple(), wait_minutes=config.FETCH_URLS_INTERVAL)
+    summaries_updater = Updater(generate_single_summary, callback_args=tuple(), wait_minutes=config.SUMMARY_GENERATION_INTERVAL)
 
-    # headlines_updater.start()
-    # summaries_updater.start()
+    headlines_updater.start()
+    summaries_updater.start()
 
     start_api()
 

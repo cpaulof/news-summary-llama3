@@ -19,9 +19,13 @@ def insert(url, source, title, published,  conn:sqlite3.Connection):
         raise sqlite3.OperationalError
 
 def update(id, summary, conn):
-    script = f'UPDATE news set processed=1, summary="{summary}" where id={id};'
-    conn.executescript(script)
-    conn.commit()
+    script = f'UPDATE news set processed=1, summary=? where id=?;'
+    t = (summary, id)
+    try:
+        conn.execute(script, t)
+        conn.commit()
+    except sqlite3.OperationalError:
+        raise sqlite3.OperationalError
 
 def get_single(id, conn):
     script = f"SELECT * FROM news WHERE id={id};"

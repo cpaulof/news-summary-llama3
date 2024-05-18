@@ -2,15 +2,12 @@ import sqlite3
 import os
 
 from . import utils
-
-
-DATABASE_FILE = './database/db.sqlite'
-SQL_FILE = './data/database.sql'
+import config
 
 
 class Database:
-    def __init__(self, sql_path=SQL_FILE, db_path=DATABASE_FILE):
-        exists = os.path.exists(DATABASE_FILE)
+    def __init__(self, sql_path=config.SQL_FILE, db_path=config.DATABASE_FILE):
+        exists = os.path.exists(db_path)
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
         if not exists:
             utils.execute_script_file(sql_path, self.conn)

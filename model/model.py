@@ -2,10 +2,9 @@ from llama_cpp import Llama
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.prompts import PromptTemplate
 
+import config
 
-MODEL_PATH = './model/Meta-Llama-3-8B-Instruct.Q2_K.gguf'
-
-llm = Llama(MODEL_PATH, n_ctx=8192)
+llm = Llama(config.MODEL_PATH, n_ctx=8192)
 
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=8192,
