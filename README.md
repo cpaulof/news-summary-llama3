@@ -9,6 +9,7 @@ cd news-summary-llama3
 pip install -r requirements.txt
 python controller.py
 ```
+> **Note:** Create a python file on root directory called keys.py with the string variable API_KEY. You can get a key on https://newsapi.org/.
 
 ### New urls are fetched every few minutes and generation is made every few seconds when there is available unprocessed urls.
 
